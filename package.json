@@ -1,5 +1,6 @@
 {
   "name": "sd-notify-cli",
+  "repository": "benmerckx/sd-notify-cli",
   "license": "MIT",
   "version": "1.0.0",
   "description": "A cross-platform command-line utility for systemd service notification",
