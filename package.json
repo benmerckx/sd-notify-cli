@@ -1,4 +1,5 @@
 {
+  "type": "module",
   "name": "sd-notify-cli",
   "repository": "benmerckx/sd-notify-cli",
   "license": "MIT",
@@ -7,10 +8,15 @@
   "bin": "./bin/notify.com",
   "files": [
     "bin/notify.com",
+    "src/notify.js",
     "README.md",
     "LICENSE"
   ],
   "scripts": {
     "prepublishOnly": "make all"
+  },
+  "exports": {
+    ".": "./src/notify.js",
+    "./package.json": "./package.json"
   }
 }

@@ -31,6 +31,20 @@ To send a custom message:
 sd-notify-cli "STATUS=Starting up..."
 ```
 
+## Usage from JavaScript
+
+You can also use this package directly from JavaScript:
+
+```js
+import notify from 'sd-notify-cli'
+
+// Notify systemd that your service is ready
+await notify('READY=1')
+
+// Send a custom message
+await notify('STATUS=Starting up...')
+```
+
 ## Notes
 
 - This is **not** a full replacement for `sd_notify()` from `libsystemd`. It only sends a single message to the specified socket.
