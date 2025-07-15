@@ -1,0 +1,15 @@
+{
+  "name": "sd-notify-cli",
+  "license": "MIT",
+  "version": "1.0.0",
+  "description": "A cross-platform command-line utility for systemd service notification",
+  "bin": "./bin/notify.com",
+  "files": [
+    "bin/notify.com",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "prepublishOnly": "make all"
+  }
+}

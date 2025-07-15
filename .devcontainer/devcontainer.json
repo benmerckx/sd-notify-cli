@@ -1,0 +1,6 @@
+{
+  "image": "mcr.microsoft.com/devcontainers/base:debian",
+  "mounts": [
+    "type=bind,source=${localEnv:HOME}/.ssh,target=/home/vscode/.ssh,readonly"
+  ]
+}
