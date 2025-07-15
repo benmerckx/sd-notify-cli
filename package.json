@@ -3,7 +3,7 @@
   "name": "sd-notify-cli",
   "repository": "benmerckx/sd-notify-cli",
   "license": "MIT",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "A cross-platform command-line utility for systemd service notification",
   "bin": "./bin/notify.com",
   "files": [
@@ -17,6 +17,7 @@
   },
   "exports": {
     ".": "./src/notify.js",
+    "./bin/notify.com": "./bin/notify.com",
     "./package.json": "./package.json"
   }
 }
