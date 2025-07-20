@@ -19,5 +19,8 @@ jobs:
       - name: Install dependencies
         run: bun install
 
+      - name: Install socat
+        run: sudo apt-get update && sudo apt-get install -y socat
+
       - name: Run tests
         run: bun test
