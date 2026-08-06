@@ -24,7 +24,7 @@ $(COSMOCC_EXTRACTED_STAMP): $(COSMOCC_ZIP)
 
 $(BIN): $(SRC) $(COSMOCC_EXTRACTED_STAMP)
 	mkdir -p $(dir $@)
-	$(COSMOCC) -o $@ $<
+	$(COSMOCC) -DSUPPORT_VECTOR=251 -o $@ $<
 
 clean:
 	rm -f $(BIN)

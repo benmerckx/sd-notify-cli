@@ -15,15 +15,14 @@ const dir = path.dirname(fileURLToPath(import.meta.url))
  * or rejects if the binary execution fails.
  */
 export default function notify(statusMessage) {
+  if (process.platform === 'win32') {
+    return Promise.resolve()
+  }
+
   return new Promise((resolve, reject) => {
     let stderrOutput = ''
     const binaryPath = path.join(dir, '../bin/notify.com')
-
-    const isWin = process.platform === 'win32'
-    const cmd = isWin ? binaryPath : 'sh'
-    const args = isWin ? [statusMessage] : [binaryPath, statusMessage]
-
-    const notifyProcess = spawn(cmd, args)
+    const notifyProcess = spawn('sh', [binaryPath, statusMessage])
     notifyProcess.stderr.on('data', data => {
       stderrOutput += data.toString()
     })
