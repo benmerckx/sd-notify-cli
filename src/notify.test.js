@@ -59,7 +59,9 @@ describe('notify', () => {
     try {
       await notify('READY=1')
     } catch (e) {
-      expect(e.message).toContain('not found')
+      const msg = e.message.toLowerCase()
+      const hasNotFoundError = msg.includes('not found') || msg.includes('no such file') || msg.includes('cannot open')
+      expect(hasNotFoundError).toBe(true)
     } finally {
       fs.renameSync(renamedPath, originalPath)
     }

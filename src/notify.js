@@ -18,9 +18,12 @@ export default function notify(statusMessage) {
   return new Promise((resolve, reject) => {
     let stderrOutput = ''
     const binaryPath = path.join(dir, '../bin/notify.com')
-    const notifyProcess = spawn(binaryPath, [statusMessage], {
-      shell: true
-    })
+
+    const isWin = process.platform === 'win32'
+    const cmd = isWin ? binaryPath : 'sh'
+    const args = isWin ? [statusMessage] : [binaryPath, statusMessage]
+
+    const notifyProcess = spawn(cmd, args)
     notifyProcess.stderr.on('data', data => {
       stderrOutput += data.toString()
     })
