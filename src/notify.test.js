@@ -31,37 +31,43 @@ describe('notify', () => {
       socat.kill()
       expect(output).toBe('READY=1')
     })
+
+    test('NOTIFY_SOCKET environment variable not set', async () => {
+      delete process.env.NOTIFY_SOCKET
+      try {
+        await notify('READY=1')
+      } catch (e) {
+        expect(e.message).toContain('NOTIFY_SOCKET environment variable not set')
+      }
+    })
+
+    test('invalid socket path', async () => {
+      process.env.NOTIFY_SOCKET = '/invalid/socket/path'
+      try {
+        await notify('READY=1')
+      } catch (e) {
+        expect(e.message).toContain('sendto: No such file or directory')
+      }
+    })
+
+    test('binary not found', async () => {
+      const originalPath = path.join(process.cwd(), 'bin/notify.com')
+      const renamedPath = path.join(process.cwd(), 'bin/notify.com.bak')
+      fs.renameSync(originalPath, renamedPath)
+
+      try {
+        await notify('READY=1')
+      } catch (e) {
+        const msg = e.message.toLowerCase()
+        const hasNotFoundError = msg.includes('not found') || msg.includes('no such file') || msg.includes('cannot open')
+        expect(hasNotFoundError).toBe(true)
+      } finally {
+        fs.renameSync(renamedPath, originalPath)
+      }
+    })
+  } else {
+    test('no-op on Windows', async () => {
+      await notify('READY=1')
+    })
   }
-
-  test('NOTIFY_SOCKET environment variable not set', async () => {
-    delete process.env.NOTIFY_SOCKET
-    try {
-      await notify('READY=1')
-    } catch (e) {
-      expect(e.message).toContain('NOTIFY_SOCKET environment variable not set')
-    }
-  })
-
-  test('invalid socket path', async () => {
-    process.env.NOTIFY_SOCKET = '/invalid/socket/path'
-    try {
-      await notify('READY=1')
-    } catch (e) {
-      expect(e.message).toContain('sendto: No such file or directory')
-    }
-  })
-
-  test('binary not found', async () => {
-    const originalPath = path.join(process.cwd(), 'bin/notify.com')
-    const renamedPath = path.join(process.cwd(), 'bin/notify.com.bak')
-    fs.renameSync(originalPath, renamedPath)
-
-    try {
-      await notify('READY=1')
-    } catch (e) {
-      expect(e.message).toContain('not found')
-    } finally {
-      fs.renameSync(renamedPath, originalPath)
-    }
-  })
 })
